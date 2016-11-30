@@ -37,7 +37,7 @@ var registerEventHandlers = function (eventHandlers, skillContext) {
                 speechOutput += 'Welcome back! ' + textHelper.getHappinessText(currentGame);
                 reprompt = textHelper.nextHelp;
             }
-            response.ask(speechOutput, reprompt);
+            response.ask({type:'SSML', speech:'<speak>' + speechOutput + '<audio src="https://s3.amazonaws.com/alexa-digital-pet-assets/alexa-bark.mp3" /></speak>'}, reprompt);
         });
     };
 };

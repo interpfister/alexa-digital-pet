@@ -21,7 +21,7 @@ var textHelper = (function () {
         + ' Dazzle bad girl.'
         + ' put Dazzle down.'
         + ' and exit.',
-        nextHelp: 'You can try feeding her, taking her for a walk or playing fetch. What would you like to do?',
+        nextHelp: 'You can try feeding Dazzle, taking her for a walk or playing fetch. What would you like to do?',
         getHappinessText: function(currentGame) {
             var speechOutput = "";
             var happiness = currentGame.getHappiness();

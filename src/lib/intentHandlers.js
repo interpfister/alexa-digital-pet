@@ -16,7 +16,7 @@ var registerIntentHandlers = function (intentHandlers, skillContext) {
     intentHandlers.IsPetHappyIntent = function (intent, session, response) {
         //reset scores for all existing players
         storage.loadGame(session, function (currentGame) {                      
-            response.ask(textHelper.getHappinessText(currentGame) + " What would you like to do next?");
+            response.ask({type:'SSML', speech: '<speak>' + textHelper.getHappinessText(currentGame) + '<audio src="https://s3.amazonaws.com/alexa-digital-pet-assets/alexa-bark.mp3" />'  + " What would you like to do next?</speak>"});
         });
     };
 

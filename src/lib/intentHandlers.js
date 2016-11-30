@@ -16,7 +16,7 @@ var registerIntentHandlers = function (intentHandlers, skillContext) {
     intentHandlers.IsPetHappyIntent = function (intent, session, response) {
         //reset scores for all existing players
         storage.loadGame(session, function (currentGame) {                      
-            response.tell(textHelper.getHappinessText(currentGame));
+            response.ask(textHelper.getHappinessText(currentGame) + " What would you like to do next?");
         });
     };
 
@@ -25,7 +25,7 @@ var registerIntentHandlers = function (intentHandlers, skillContext) {
             currentGame.data.hunger = 0;
             
             currentGame.save(function () {
-                response.tell("Dazzle is chowing down!");
+                response.ask("Dazzle is chowing down! What would you like to do next?");
             });
         });
     };
@@ -33,7 +33,7 @@ var registerIntentHandlers = function (intentHandlers, skillContext) {
     intentHandlers.ResetPetIntent = function (intent, session, response) {
         //remove all players
         storage.newGame(session).save(function () {
-            response.tell('Old Dazzle has gone to digital pet heaven. New Dazzle has arrived from the pet store!');
+            response.ask('Old Dazzle has gone to digital pet heaven. New Dazzle has arrived from the pet store! What would you like to do next?');
         });
     };
     
@@ -42,7 +42,7 @@ var registerIntentHandlers = function (intentHandlers, skillContext) {
             currentGame.data.needToPlay = currentGame.data.needToPlay - 30;
             
             currentGame.save(function () {
-                response.tell("Dazzle caught the ball!");
+                response.ask("Dazzle caught the ball! What would you like to do next?");
             });
         });
     };
@@ -53,7 +53,7 @@ var registerIntentHandlers = function (intentHandlers, skillContext) {
             currentGame.data.needToExercise = 0;
             
             currentGame.save(function () {
-                response.tell("Dazzle and you went for a brisk walk!");
+                response.ask("Dazzle and you went for a brisk walk! What's next?");
             });
         });
     };    
@@ -64,7 +64,7 @@ var registerIntentHandlers = function (intentHandlers, skillContext) {
             currentGame.data.needToPee = 0;
             
             currentGame.save(function () {
-                response.tell("Dazzle found a nice tree and marked her territory.");
+                response.ask("Dazzle found a nice tree and marked her territory. What's next?");
             });
         });
     };
@@ -77,7 +77,7 @@ var registerIntentHandlers = function (intentHandlers, skillContext) {
             //todo: might need to mark last time disciplined and decrease happiness if recently
             
             currentGame.save(function () {
-                response.tell("Dazzle looks chastised.");
+                response.ask("Dazzle looks chastised. Anything else you'd like to do?");
             });
         });
     };

@@ -13,11 +13,15 @@ var textHelper = (function () {
 
     return {
         completeHelp: 'Here\'s some things you can say,'
-        + ' is Dazzle hungry?'
+        + ' is Dazzle happy?'
         + ' feed Dazzle.'
+        + ' take Dazzle for a walk.'
+        + ' play fetch with Dazzle.'
+        + ' take Dazzle outside.'
+        + ' Dazzle bad girl.'
         + ' put Dazzle down.'
         + ' and exit.',
-        nextHelp: 'You can see if Dazzle is hungry, feed Dazzle, or say help. What would you like?',        
+        nextHelp: 'Thanks for taking care of my pet Dazzle! Keep her happy by feeding her, taking her for a walk or playing fetch. What would you like to do?',        
     };
 })();
 module.exports = textHelper;

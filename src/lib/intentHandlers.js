@@ -13,19 +13,20 @@ var textHelper = require('./textHelper'),
     storage = require('./storage');
 
 var registerIntentHandlers = function (intentHandlers, skillContext) {
-    intentHandlers.IsPetHungryIntent = function (intent, session, response) {
+    intentHandlers.IsPetHappyIntent = function (intent, session, response) {
         //reset scores for all existing players
         storage.loadGame(session, function (currentGame) {
             var speechOutput = "";
+            var happiness = currentGame.getHappiness();
             
-            if (currentGame.data.hunger > 80) {
-                speechOutput = "Dazzle is starving!";
-            } else if(currentGame.data.hunger > 50) {
-                speechOutput = "Dazzle is very hungry!";
-            } else if(currentGame.data.hunger > 20) {
-                speechOutput = "Dazzle looks a little hungry.";
+            if (happiness > 80) {
+                speechOutput = "Dazzle is jumping up and down with excitement to see you!";
+            } else if(happiness > 50) {
+                speechOutput = "Dazzle is lazying around on the floor.";
+            } else if(happiness > 20) {
+                speechOutput = "Dazzle is looking at you longingly.";
             } else {
-                speechOutput = "Dazzle looks well fed.";
+                speechOutput = "Dazzle is curled up in the corner crying. How could you? I'm not sure we're on speaking terms any more.";
             }
             
             response.tell(speechOutput);
@@ -49,6 +50,14 @@ var registerIntentHandlers = function (intentHandlers, skillContext) {
             response.tell('Old Dazzle has gone to digital pet heaven. New Dazzle has arrived from the pet store!');
         });
     };
+    
+    //todo: fetch intent only does one throw, asks if you want to throw again ; sometimes won't play if unhappy
+    
+    //todo: walk intent - always hits exercise, also random chance of peeing
+
+    // todo:pee intent - random chance of peeing - chance increases as needToPee increases
+    
+    //todo: discipline intent - increases discipline but decreases happiness; discipline declines very slowly
 
     intentHandlers['AMAZON.HelpIntent'] = function (intent, session, response) {
         var speechOutput = textHelper.completeHelp;
@@ -61,7 +70,7 @@ var registerIntentHandlers = function (intentHandlers, skillContext) {
 
     intentHandlers['AMAZON.CancelIntent'] = function (intent, session, response) {
         if (skillContext.needMoreHelp) {
-            response.tell('Okay.');
+            response.tell('');
         } else {
             response.tell('');
         }
@@ -69,7 +78,7 @@ var registerIntentHandlers = function (intentHandlers, skillContext) {
 
     intentHandlers['AMAZON.StopIntent'] = function (intent, session, response) {
         if (skillContext.needMoreHelp) {
-            response.tell('Okay.');
+            response.tell('');
         } else {
             response.tell('');
         }

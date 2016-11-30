@@ -25,7 +25,10 @@ var registerEventHandlers = function (eventHandlers, skillContext) {
         storage.loadGame(session, function (currentGame) {
             var speechOutput = '',
                 reprompt;
-            if (currentGame.isNewPet) {
+            if (currentGame.isNewPet) { //TODO: random chance of the discipline bad things happening here; also check on happiness
+                
+    //low random chance of bad things happening if discipline is low -- biting you, scratching floor, peeing in house
+
                 speechOutput += 'Dazzle says hello! You can say feed Dazzle or ask if Dazzle is hungry.';
             } else {
                 speechOutput += 'Dazzle says hello! What would you like to do?';

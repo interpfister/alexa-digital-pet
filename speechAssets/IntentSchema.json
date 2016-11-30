@@ -1,13 +1,25 @@
 {
   "intents": [   
     {
-      "intent": "IsPetHungryIntent"
+      "intent": "IsPetHappyIntent"
     },
     {
       "intent": "FeedPetIntent"
     },
     {
+      "intent": "WalkPetIntent"
+    },
+    {
+      "intent": "LetPetPeeIntent"
+    },
+    {
       "intent": "ResetPetIntent"
+    },
+    {
+      "intent": "FetchPetIntent"
+    },
+    {
+      "intent": "DisciplinePetIntent"
     },
     {
       "intent": "AMAZON.HelpIntent"

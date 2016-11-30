@@ -1,6 +1,22 @@
-IsPetHungryIntent is Dazzle hungry
-IsPetHungryIntent how hungry is Dazzle
+IsPetHappyIntent how is Dazzle doing
+IsPetHappyIntent is Dazzle happy
+IsPetHappyIntent Dazzle are you feeling good
+IsPetHappyIntent what is Dazzles mood
 FeedPetIntent feed Dazzle
 FeedPetIntent give Dazzle food
-ResetPetIntent kill Dazzle
+FeedPetIntent Dazzle eat something
+ResetPetIntent restart Dazzle
 ResetPetIntent put Dazzle down
+FetchPetIntent play fetch with Dazzle
+WalkPetIntent take Dazzle for a walk
+WalkPetIntent Dazzle lets go for a walk
+LetPetPeeIntent take Dazzle outside
+LetPetPeeIntent let Dazzle pee
+LetPetPeeIntent Dazzle go pee
+LetPetPeeIntent Dazzle go outside
+LetPetPeeIntent Dazzle go to the bathroom
+DisciplinePetIntent yell at Dazzle
+DisciplinePetIntent discipline Dazzle
+DisciplinePetIntent Dazzle bad girl
+DisciplinePetIntent Dazzle bad boy
+DisciplinePetIntent Dazzle no

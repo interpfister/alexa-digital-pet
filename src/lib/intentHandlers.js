@@ -22,7 +22,7 @@ var registerIntentHandlers = function (intentHandlers, skillContext) {
 
     intentHandlers.FeedPetIntent = function (intent, session, response) {        
         storage.loadGame(session, function (currentGame) {            
-            currentGame.data.hunger = currentGame.data.hunger - 20;
+            currentGame.data.hunger = 0;
             
             currentGame.save(function () {
                 response.tell("Dazzle is chowing down!");
@@ -38,8 +38,8 @@ var registerIntentHandlers = function (intentHandlers, skillContext) {
     };
     
     intentHandlers.FetchPetIntent = function (intent, session, response) {
-        storage.loadGame(session, function (currentGame) {            
-            currentGame.data.needToPlay = currentGame.data.needToPlay - 20;
+        storage.loadGame(session, function (currentGame) {
+            currentGame.data.needToPlay = currentGame.data.needToPlay - 30;
             
             currentGame.save(function () {
                 response.tell("Dazzle caught the ball!");
@@ -50,7 +50,7 @@ var registerIntentHandlers = function (intentHandlers, skillContext) {
     //todo: walk intent - always hits exercise, also random chance of peeing
     intentHandlers.WalkPetIntent = function (intent, session, response) {
         storage.loadGame(session, function (currentGame) {            
-            currentGame.data.needToExercise = currentGame.data.needToExercise - 20;
+            currentGame.data.needToExercise = 0;
             
             currentGame.save(function () {
                 response.tell("Dazzle and you went for a brisk walk!");

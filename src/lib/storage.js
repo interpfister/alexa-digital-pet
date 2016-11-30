@@ -49,7 +49,7 @@ var storage = (function () {
         console.log("MS SINCE CHECKIN: " + timeElapsed);
         var fieldsToAdjust = ["hunger", "needToPlay", "needToExercise", "needToPee", "discipline"];
         fieldsToAdjust.forEach(function(field) {
-            if(!data[field]){
+            if(data[field] === null || data[field] === undefined){
                 data[field] = defaultValues[field];
             }
         });
@@ -90,9 +90,10 @@ var storage = (function () {
         getHappiness: function() {
             var obj = this;
             var happinessFactors = ["hunger", "needToPlay", "needToExercise", "needToPee"];
-            var maxUnhappiness = Math.max(happinessFactors.map(function (factor) {
+            var values = happinessFactors.map(function (factor) {
                 return obj.data[factor];
-            }));
+            });            
+            var maxUnhappiness = Math.max.apply(null, values);
             var happiness = 100 - maxUnhappiness;
             console.log("Happiness: " + happiness);
             return happiness;

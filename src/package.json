@@ -8,8 +8,11 @@
     "url": "git+https://github.com/interpfister/alexa-digital-pet"
   },
   "scripts": {
-    "test": "lambda-local -l index.js -h handler -e event-samples/getPetStatus.js",
-    "test-feed": "lambda-local -l index.js -h handler -e event-samples/feedPet.js",
+    "test": "lambda-local -l index.js -h handler -t 10 -e event-samples/getPetStatus.js",
+    "test-feed": "lambda-local -l index.js -h handler -t 10 -e event-samples/feedPet.js",
+    "test-walk": "lambda-local -l index.js -h handler -t 10 -e event-samples/walkPet.js",
+    "test-fetch": "lambda-local -l index.js -h handler -t 10 -e event-samples/fetchPet.js",
+    "test-pee": "lambda-local -l index.js -h handler -t 10 -e event-samples/peePet.js",
     "deploy": "set AWS_REGION=us-east-1&& set AWS_IAM_ROLE=arn:aws:iam::446645498137:role/lambda_basic_execution&& dpl"
   },
   "keywords": [

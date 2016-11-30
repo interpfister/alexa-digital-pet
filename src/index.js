@@ -40,7 +40,7 @@
  *  Alexa: "Jeff has zero points and Bob has three"
  */
 'use strict';
-var ScoreKeeper = require('./scoreKeeper');
+var ScoreKeeper = require('./lib/scoreKeeper');
 
 exports.handler = function (event, context) {
     var scoreKeeper = new ScoreKeeper();

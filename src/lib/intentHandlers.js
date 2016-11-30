@@ -15,28 +15,14 @@ var textHelper = require('./textHelper'),
 var registerIntentHandlers = function (intentHandlers, skillContext) {
     intentHandlers.IsPetHappyIntent = function (intent, session, response) {
         //reset scores for all existing players
-        storage.loadGame(session, function (currentGame) {
-            var speechOutput = "";
-            var happiness = currentGame.getHappiness();
-            
-            if (happiness > 80) {
-                speechOutput = "Dazzle is jumping up and down with excitement to see you!";
-            } else if(happiness > 50) {
-                speechOutput = "Dazzle is lazying around on the floor.";
-            } else if(happiness > 20) {
-                speechOutput = "Dazzle is looking at you longingly.";
-            } else {
-                speechOutput = "Dazzle is curled up in the corner crying. How could you? I'm not sure we're on speaking terms any more.";
-            }
-            
-            response.tell(speechOutput);
-            return;
+        storage.loadGame(session, function (currentGame) {                      
+            response.tell(textHelper.getHappinessText(currentGame));
         });
     };
 
     intentHandlers.FeedPetIntent = function (intent, session, response) {        
         storage.loadGame(session, function (currentGame) {            
-            currentGame.data.hunger = currentGame.data.hunger - 30;
+            currentGame.data.hunger = currentGame.data.hunger - 20;
             
             currentGame.save(function () {
                 response.tell("Dazzle is chowing down!");
@@ -51,13 +37,50 @@ var registerIntentHandlers = function (intentHandlers, skillContext) {
         });
     };
     
-    //todo: fetch intent only does one throw, asks if you want to throw again ; sometimes won't play if unhappy
+    intentHandlers.FetchPetIntent = function (intent, session, response) {
+        storage.loadGame(session, function (currentGame) {            
+            currentGame.data.needToPlay = currentGame.data.needToPlay - 20;
+            
+            currentGame.save(function () {
+                response.tell("Dazzle caught the ball!");
+            });
+        });
+    };
     
     //todo: walk intent - always hits exercise, also random chance of peeing
+    intentHandlers.WalkPetIntent = function (intent, session, response) {
+        storage.loadGame(session, function (currentGame) {            
+            currentGame.data.needToExercise = currentGame.data.needToExercise - 20;
+            
+            currentGame.save(function () {
+                response.tell("Dazzle and you went for a brisk walk!");
+            });
+        });
+    };    
 
     // todo:pee intent - random chance of peeing - chance increases as needToPee increases
-    
+    intentHandlers.LetPetPeeIntent = function (intent, session, response) {
+        storage.loadGame(session, function (currentGame) {            
+            currentGame.data.needToPee = 0;
+            
+            currentGame.save(function () {
+                response.tell("Dazzle found a nice tree and marked her territory.");
+            });
+        });
+    };
+       
     //todo: discipline intent - increases discipline but decreases happiness; discipline declines very slowly
+    // todo:pee intent - random chance of peeing - chance increases as needToPee increases
+    intentHandlers.DisciplinePetIntent = function (intent, session, response) {
+        storage.loadGame(session, function (currentGame) {            
+            currentGame.data.discipline = currentGame.data.discipline + 10;
+            //todo: might need to mark last time disciplined and decrease happiness if recently
+            
+            currentGame.save(function () {
+                response.tell("Dazzle looks chastised.");
+            });
+        });
+    };
 
     intentHandlers['AMAZON.HelpIntent'] = function (intent, session, response) {
         var speechOutput = textHelper.completeHelp;

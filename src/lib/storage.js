@@ -14,6 +14,14 @@ var AWS = require("aws-sdk");
 var storage = (function () {
     var dynamodb = new AWS.DynamoDB({apiVersion: '2012-08-10'});
 
+    var defaultValues = {
+        hunger: 50,
+        needToPlay: 50,
+        needToExercise: 50,
+        //sleepiness: 0, //increase this after being fed -- TODO: For future
+        needToPee: 0,
+        discipline: 0 //while discipline is low, random chance Dazzle will pee without being let outside
+    }
     /*
      * The Game class stores all game states for the user
      */
@@ -22,12 +30,11 @@ var storage = (function () {
             this.data = updateData(data);
         } else {
             this.data = {                
-                hunger: 50,
-                needToPlay: 50,
-                needToExercise: 50,
-                //sleepiness: 0, //increase this after being fed -- TODO: For future
-                needToPee: 0,
-                discipline: 0, //while discipline is low, random chance Dazzle will pee without being let outside
+                hunger: defaultValues.hunger,
+                needToPlay: defaultValues.needToPlay,
+                needToExercise: defaultValues.needToExercise,
+                needToPee: defaultValues.needToPee,
+                discipline: defaultValues.discipline,
                 isNewPet: true,
                 lastCheckin: new Date()
             };
@@ -36,93 +43,59 @@ var storage = (function () {
     }
     
     function updateData(data) {
-        var timeElapsed = (new Date) - data.lastCheckin; //in ms          
+        //console.log("ORIG DATA: " + JSON.stringify(data));
+        
+        var timeElapsed = (new Date()) - new Date(data.lastCheckin); //in ms
+        console.log("MS SINCE CHECKIN: " + timeElapsed);
+        var fieldsToAdjust = ["hunger", "needToPlay", "needToExercise", "needToPee", "discipline"];
+        fieldsToAdjust.forEach(function(field) {
+            if(!data[field]){
+                data[field] = defaultValues[field];
+            }
+        });
+
+        //console.log("AFTER DEFAULTS: " + JSON.stringify(data));
                 
-        data.hunger = data.hunger - Math.floor(Math.random() * timeElapsed) ; //TODO: Need a better algorithm based on actual time passed
+        
+        //hunger should increment by 10 points an hour = 10 points per 3600000 ms
+        data.hunger = data.hunger + Math.floor((timeElapsed * 10 / 3600000));
+        
+        //play goes 25 points per hour -- likes to play a lot //TODO: for future could make the pace of increase vary for each pet
+        data.needToPlay = data.needToPlay + Math.floor((timeElapsed * 25 / 3600000));
+        
+        data.needToExercise = data.needToExercise + Math.floor((timeElapsed * 15 / 3600000));
+        
+        data.needToPee = data.needToPee + Math.floor((timeElapsed * 10 / 3600000));
+        
+        //only one point per hour discipline drop
+        data.discipline = data.discipline - Math.floor((timeElapsed * 1 / 3600000));
+                  
+        //reset max and min
+        fieldsToAdjust.forEach(function(field) {
+            if(data[field] > 100) {
+                data[field] = 100;
+            } else if(data[field] < 0) {
+                data[field] = 0;
+            }
+        });
         
         data.lastCheckin = new Date();
         
+        //console.log("UPDATED DATA: " + JSON.stringify(data));
         
-        
-        return data;
-        
-        
-   /*      def updateData(pet)
-    today = DateTime.now
-
-    ### UPDATE MOOD
-
-    # find last time pet was played with
-    minsSince = ((today - pet.lastPlayedWith) * 24 *60).to_i
-
-    # Mood is 50% cleanliness and hunger
-    # And 50% based on the last time the pet was played with
-
-    hungerCleanMood = (pet.cleanliness/4)+(pet.hunger/4)
-
-    moodReduce = ((minsSince / 30) * (pet.level * 2)) # subtract level for every 30 mins
-
-    if moodReduce > 100 then
-      pet.mood = 0
-    else
-      pet.mood = hungerCleanMood + (50 - moodReduce)
-    end
-
-
-    ### UPDATE HUNGER
-
-    # find last time pet was fed
-    minsSince = ((today - pet.lastFed) * 24 *60).to_i
-
-    hungerReduce = ((minsSince / 20) * (pet.level*2)) # subtract level for every 20 mins
-
-    pet.hunger = pet.hunger - hungerReduce
-
-    if pet.hunger < 0 then
-      pet.hunger = 0
-    end
-
-    ### UPDATE CLEANLINESS
-
-    # find last time pet was cleaned
-    minsSince = ((today - pet.lastCleaned) * 24 *60).to_i
-
-    cleanReduce = ((minsSince / 25) * (pet.level * 2)) # subtract level for every 25 mins
-
-    pet.cleanliness = pet.cleanliness - cleanReduce
-
-    if pet.cleanliness < 0 then
-      pet.cleanliness = 0
-    end
-
-    if pet.cleanliness == 0 and pet.hunger == 0 and pet.mood == 0 then
-      # pet is dead :-(
-      pet.alive = false
-    end
-
-    # since we just reduced attributes... update time stamps so that
-    # they are not reduced again if updateData is called.
-    pet.lastFed = DateTime.now()
-    pet.lastCleaned = DateTime.now()
-
-    pet.save
-
-  end
-
-end
-*/
+        return data;      
     }
 
     Game.prototype = {
         getHappiness: function() {
+            var obj = this;
             var happinessFactors = ["hunger", "needToPlay", "needToExercise", "needToPee"];
-            /*happinessFactors.each(function (factor) {
-                              
-                if(this.data[factor] < 20) {
-                    //TODO: Determine max, then to 100 - max
-                }
-            });*/
-            return 10;
+            var maxUnhappiness = Math.max(happinessFactors.map(function (factor) {
+                return obj.data[factor];
+            }));
+            var happiness = 100 - maxUnhappiness;
+            console.log("Happiness: " + happiness);
+            return happiness;
         },
     
         save: function (callback) {

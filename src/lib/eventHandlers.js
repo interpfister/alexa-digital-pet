@@ -29,9 +29,12 @@ var registerEventHandlers = function (eventHandlers, skillContext) {
                 
     //low random chance of bad things happening if discipline is low -- biting you, scratching floor, peeing in house
 
-                speechOutput += 'Dazzle says hello! You can say feed Dazzle or ask if Dazzle is hungry.';
+                speechOutput += 'Thanks for taking care of my pet Dazzle! What would you like to do?';
+                
+                currentGame.data.isNewPet = false;
+                currentGame.save();                
             } else {
-                speechOutput += 'Dazzle says hello! What would you like to do?';
+                speechOutput += 'Welcome back! ' + textHelper.getHappinessText(currentGame);
                 reprompt = textHelper.nextHelp;
             }
             response.ask(speechOutput, reprompt);

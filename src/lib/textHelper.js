@@ -21,7 +21,24 @@ var textHelper = (function () {
         + ' Dazzle bad girl.'
         + ' put Dazzle down.'
         + ' and exit.',
-        nextHelp: 'Thanks for taking care of my pet Dazzle! Keep her happy by feeding her, taking her for a walk or playing fetch. What would you like to do?',        
-    };
+        nextHelp: 'You can try feeding her, taking her for a walk or playing fetch. What would you like to do?',
+        getHappinessText: function(currentGame) {
+            var speechOutput = "";
+            var happiness = currentGame.getHappiness();
+            console.log("Happiness value: " + happiness);
+            
+            if (happiness > 80) {
+                speechOutput = "Dazzle is jumping up and down with excitement to see you!";
+            } else if(happiness > 50) {
+                speechOutput = "Dazzle is lazying around on the floor.";
+            } else if(happiness > 20) {
+                speechOutput = "Dazzle is looking at you longingly.";
+            } else {
+                speechOutput = "Dazzle is curled up in the corner crying. How could you? I'm not sure we're on speaking terms any more.";
+            }
+            
+            return speechOutput;
+        }
+    };        
 })();
 module.exports = textHelper;

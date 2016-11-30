@@ -9,6 +9,7 @@
   },
   "scripts": {
     "test": "lambda-local -l index.js -h handler -e event-samples/getPetStatus.js",
+    "test-feed": "lambda-local -l index.js -h handler -e event-samples/feedPet.js",
     "deploy": "set AWS_REGION=us-east-1&& set AWS_IAM_ROLE=arn:aws:iam::446645498137:role/lambda_basic_execution&& dpl"
   },
   "keywords": [
@@ -16,13 +17,18 @@
     "skill",
     "pet"
   ],
-  "files_to_deploy": [ "package.json", "index.js", "lib"],
+  "files_to_deploy": [
+    "package.json",
+    "index.js",
+    "lib"
+  ],
   "author": "Ryan Pfister",
   "license": "Apache-2.0",
-  "dependencies": {    
+  "dependencies": {
   },
   "devDependencies": {
     "dpl": "^3.7.0",
-    "lambda-local": "^1.3.0"
+    "lambda-local": "^1.3.0",
+    "aws-sdk": "^2.7.8"
   }
 }

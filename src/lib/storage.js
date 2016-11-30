@@ -19,29 +19,30 @@ var storage = (function () {
      */
     function Game(session, data) {
         if (data) {
-            this.data = data;
+            this.data = updateData(data);
         } else {
             this.data = {
-                players: [],
-                scores: {}
+                hunger: 50,
+                isNewPet: true,
+                lastCheckin: new Date()
             };
         }
         this._session = session;
     }
+    
+    function updateData(data) {
+        var ONE_HOUR = 60 * 60 * 1000; /* ms */
+        
+        if(((new Date) - data.lastCheckin) > ONE_HOUR) {
+            data.hunger = data.hunger - 20; //TODO: Need a better algorithm based on actual time passed
+        }
+        
+        data.lastCheckin = new Date();
+        
+        return data;
+    }
 
-    Game.prototype = {
-        isEmptyScore: function () {
-            //check if any one had non-zero score,
-            //it can be used as an indication of whether the game has just started
-            var allEmpty = true;
-            var gameData = this.data;
-            gameData.players.forEach(function (player) {
-                if (gameData.scores[player] !== 0) {
-                    allEmpty = false;
-                }
-            });
-            return allEmpty;
-        },
+    Game.prototype = {        
         save: function (callback) {
             //save the game states in the session,
             //so next time we can save a read from dynamoDB
@@ -96,6 +97,7 @@ var storage = (function () {
                     console.log('get game from dynamodb=' + data.Item.Data.S);
                     currentGame = new Game(session, JSON.parse(data.Item.Data.S));
                     session.attributes.currentGame = currentGame.data;
+                    console.log("CURRENT GAME: " + JSON.stringify(currentGame));
                     callback(currentGame);
                 }
             });

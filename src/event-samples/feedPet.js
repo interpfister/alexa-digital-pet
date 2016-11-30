@@ -18,7 +18,7 @@ module.exports = {
     "requestId": "amzn1.echo-api.request.[unique-value-here]",
     "intent": {
       "slots": {},
-      "name": "IsPetHungryIntent"
+      "name": "FeedPetIntent"
     }
   },
   "context": {

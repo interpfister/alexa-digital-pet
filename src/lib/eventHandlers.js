@@ -25,19 +25,10 @@ var registerEventHandlers = function (eventHandlers, skillContext) {
         storage.loadGame(session, function (currentGame) {
             var speechOutput = '',
                 reprompt;
-            if (currentGame.data.players.length === 0) {
-                speechOutput += 'ScoreKeeper, Let\'s start your game. Who\'s your first player?';
-                reprompt = "Please tell me who is your first player?";
-            } else if (currentGame.isEmptyScore()) {
-                speechOutput += 'ScoreKeeper, '
-                    + 'you have ' + currentGame.data.players.length + ' player';
-                if (currentGame.data.players.length > 1) {
-                    speechOutput += 's';
-                }
-                speechOutput += ' in the game. You can give a player points, add another player, reset all players or exit. Which would you like?';
-                reprompt = textHelper.completeHelp;
+            if (currentGame.isNewPet) {
+                speechOutput += 'Dazzle says hello! You can say feed Dazzle or ask if Dazzle is hungry.';
             } else {
-                speechOutput += 'ScoreKeeper, What can I do for you?';
+                speechOutput += 'Dazzle says hello! What would you like to do?';
                 reprompt = textHelper.nextHelp;
             }
             response.ask(speechOutput, reprompt);

@@ -1,35 +1,13 @@
 {
-  "intents": [
+  "intents": [   
     {
-      "intent": "AddPlayerIntent",
-      "slots": [
-        {
-          "name": "PlayerName",
-          "type": "LIST_OF_PLAYER_NAMES"
-        }
-      ]
+      "intent": "IsPetHungryIntent"
     },
     {
-      "intent": "AddScoreIntent",
-      "slots": [
-        {
-          "name": "PlayerName",
-          "type": "LIST_OF_PLAYER_NAMES"
-        },
-        {
-          "name": "ScoreNumber",
-          "type": "AMAZON.NUMBER"
-        }
-      ]
+      "intent": "FeedPetIntent"
     },
     {
-      "intent": "ResetPlayersIntent"
-    },
-    {
-      "intent": "NewGameIntent"
-    },
-    {
-      "intent": "TellScoresIntent"
+      "intent": "ResetPetIntent"
     },
     {
       "intent": "AMAZON.HelpIntent"

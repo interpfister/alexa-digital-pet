@@ -1,16 +1,6 @@
-# Sample AWS Lambda function for Alexa
-A simple [AWS Lambda](http://aws.amazon.com/lambda) function that demonstrates how to write a skill for the Amazon Echo using the Alexa SDK.
+# Alexa Digital Pet
 
-## Concepts
-This sample shows how to create a Lambda function for handling Alexa Skill requests that:
-
-- Multiple slots: has 2 slots (name and score)
-- Database Interaction: demonstrates how to read and write data to DynamoDB.
-- NUMBER slot: demonstrates how to handle number slots.
-- Custom slot type: demonstrates using custom slot types to handle a finite set of known values
-- Dialog and Session state: Handles two models, both a one-shot ask and tell model, and a multi-turn dialog model.
-    If the user provides an incorrect slot in a one-shot model, it will direct to the dialog model. See the
-    examples section for sample interactions of these models.
+This skill is based on the Scorekeeper example from the AWS SDK.
 
 ## Setup
 To run this example skill you need to do two things. The first is to deploy the example code in lambda, and the second is to configure the Alexa skill to use Lambda.
@@ -42,7 +32,7 @@ To run this example skill you need to do two things. The first is to deploy the 
 
 ### Alexa Skill Setup
 1. Go to the [Alexa Console](https://developer.amazon.com/edw/home.html) and click Add a New Skill.
-2. Set "ScoreKeeper" for the skill name and "score keeper" as the invocation name, this is what is used to activate your skill. For example you would say: "Alexa, Ask score keeper for the current score."
+2. Set "DigitalPet" for the skill name and "digipet" as the invocation name, this is what is used to activate your skill. For example you would say: "Alexa, Ask digipet how is Dazzle doing."
 3. Select the Lambda ARN for the skill Endpoint and paste the ARN copied from above. Click Next.
 4. Copy the custom slot types from the customSlotTypes folder. Each file in the folder represents a new custom slot type. The name of the file is the name of the custom slot type, and the values in the file are the values for the custom slot.
 5. Copy the Intent Schema from the included IntentSchema.json.
@@ -53,22 +43,6 @@ To run this example skill you need to do two things. The first is to deploy the 
 9. In order to test it, try to say some of the Sample Utterances from the Examples section below.
 10. Your skill is now saved and once you are finished testing you can continue to publish your skill.
 
-## Examples
-### Dialog model:
-    User: "Alexa, tell score keeper to reset."
-    Alexa: "New game started without players. Who do you want to add first?"
-    User: "Add the player Bob"
-    Alexa: "Bob has joined your game"
-    User: "Add player Jeff"
-    Alexa: "Jeff has joined your game"
 
-    (skill saves the new game and ends)
-
-    User: "Alexa, tell score keeper to give Bob three points."
-    Alexa: "Updating your score, three points for Bob"
-
-    (skill saves the latest score and ends)
-
-### One-shot model:
-    User: "Alexa, ask score keeper what's the current score?"
-    Alexa: "Jeff has zero points and Bob has three"
+### Testing
+To test the application, see the scripts available in src/package.json.

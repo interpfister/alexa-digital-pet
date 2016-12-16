@@ -25,9 +25,9 @@ function randomBadThing(data) {
     var exerciseRandom = (data.needToExercise/100) * ((1 - data.discipline/100)) * Math.random();
     console.log("Exercise random: " + exerciseRandom);
     
-    if(peeRandom > .3) {
+    if(peeRandom > .8) {
         return ["Uh oh! Dazzle just peed on the carpet!", "Oh no! Dazzle just peed on your shoes!", "Oops! Dazzle just went number 2 on the sofa!"].randomElement();
-    } else if(exerciseRandom > .3) {
+    } else if(exerciseRandom > .8) {
         return ["Uh oh! Dazzle just chewed up a pillow!", "Crisis! Dazzle just scratched up the floor!"].randomElement();
     } else {
         return null;
